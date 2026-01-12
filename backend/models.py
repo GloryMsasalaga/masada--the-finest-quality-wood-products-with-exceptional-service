@@ -1,6 +1,5 @@
 from django.db import models
 
-<<<<<<< HEAD
 from django.contrib.auth.models import User
 
 # Create your models here.
@@ -8,14 +7,6 @@ class Customer(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
     fullname = models.TextField(max_length=120)
     email = models.EmailField(max_length=120)
-    # Password field removed - using Django Auth
-=======
-# Create your models here.
-class Customer(models.Model):
-    fullname = models.TextField(max_length=120)
-    email = models.EmailField(max_length=120)
-    password = models.CharField(max_length=8)
->>>>>>> 2a3808d66030dd7595c6dd92b5292ff51314f449
     customer_type = models.CharField(max_length=120)
     customer_id = models.UUIDField(primary_key=True, editable=False)
     location = models.CharField(max_length=120)
@@ -40,7 +31,6 @@ class Product(models.Model):
     Dimensions = models.CharField(max_length=120)
     stock_quantity = models.PositiveIntegerField(max_length=0)
     description = models.TextField(max_length=250)
-<<<<<<< HEAD
     vendor = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name='products', null=True, blank=True)
     
     def __str__(self):
@@ -57,11 +47,6 @@ class Staff(models.Model):
     def __str__(self):
         return f"{self.fullname} - {self.role} at {self.employer.fullname}"
 
-=======
-    
-    def __str__(self):
-        return self.ProductName
->>>>>>> 2a3808d66030dd7595c6dd92b5292ff51314f449
     
 class Order(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name= "items")

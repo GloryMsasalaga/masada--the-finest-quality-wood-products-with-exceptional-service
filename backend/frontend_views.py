@@ -5,17 +5,11 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.http import JsonResponse
-<<<<<<< HEAD
 from django.db.models import Q, Sum, F, Count
 from .models import Product, Customer, Order, OrderItem, Inventory, Staff
 from .serializers import ProductSerializer
 from django.utils import timezone
 from datetime import timedelta
-=======
-from django.db.models import Q
-from .models import Product, Customer, Order, OrderItem, Inventory
-from .serializers import ProductSerializer
->>>>>>> 2a3808d66030dd7595c6dd92b5292ff51314f449
 import json
 
 def home(request):
@@ -88,7 +82,6 @@ def user_login(request):
         email = request.POST.get('email')
         password = request.POST.get('password')
         
-<<<<<<< HEAD
         # Authenticate user
         user = authenticate(request, username=email, password=password)
         
@@ -105,17 +98,6 @@ def user_login(request):
         else:
             messages.error(request, 'Invalid email or password.')
             return render(request, 'frontend/login.html', {'email': email})
-=======
-        # Try to authenticate with Customer model
-        try:
-            customer = Customer.objects.get(email=email, password=password)
-            request.session['customer_id'] = str(customer.customer_id)
-            request.session['customer_name'] = customer.fullname
-            messages.success(request, f'Welcome back, {customer.fullname}!')
-            return redirect('dashboard')
-        except Customer.DoesNotExist:
-            messages.error(request, 'Invalid email or password.')
->>>>>>> 2a3808d66030dd7595c6dd92b5292ff51314f449
     
     return render(request, 'frontend/login.html')
 
@@ -128,7 +110,6 @@ def user_signup(request):
         customer_type = request.POST.get('customer_type', 'Individual')
         location = request.POST.get('location')
         
-<<<<<<< HEAD
         # Check if email/username already exists
         if User.objects.filter(username=email).exists():
             messages.error(request, 'Email already registered.')
@@ -157,32 +138,11 @@ def user_signup(request):
         except Exception as e:
             messages.error(request, f'An error occurred: {str(e)}')
             return render(request, 'frontend/signup.html')
-=======
-        # Check if email already exists
-        if Customer.objects.filter(email=email).exists():
-            messages.error(request, 'Email already registered.')
-            return render(request, 'frontend/signup.html')
-        
-        # Create new customer
-        import uuid
-        customer = Customer.objects.create(
-            customer_id=uuid.uuid4(),
-            fullname=fullname,
-            email=email,
-            password=password,
-            customer_type=customer_type,
-            location=location
-        )
-        
-        messages.success(request, 'Account created successfully! Please login.')
-        return redirect('login')
->>>>>>> 2a3808d66030dd7595c6dd92b5292ff51314f449
     
     return render(request, 'frontend/signup.html')
 
 def user_logout(request):
     """User logout"""
-<<<<<<< HEAD
     logout(request)
     messages.success(request, 'You have been logged out successfully.')
     return redirect('home')
@@ -276,41 +236,6 @@ def orders(request):
     """User orders page"""
     try:
         customer = request.user.customer
-=======
-    request.session.flush()
-    messages.success(request, 'You have been logged out successfully.')
-    return redirect('home')
-
-@login_required
-def dashboard(request):
-    """User dashboard"""
-    # Check if customer is logged in via session
-    customer_id = request.session.get('customer_id')
-    if not customer_id:
-        return redirect('login')
-    
-    try:
-        customer = Customer.objects.get(customer_id=customer_id)
-        recent_orders = Order.objects.filter(customer=customer).order_by('-order_date')[:5]
-        
-        context = {
-            'customer': customer,
-            'recent_orders': recent_orders,
-        }
-        return render(request, 'frontend/dashboard.html', context)
-    except Customer.DoesNotExist:
-        request.session.flush()
-        return redirect('login')
-
-def orders(request):
-    """User orders page"""
-    customer_id = request.session.get('customer_id')
-    if not customer_id:
-        return redirect('login')
-    
-    try:
-        customer = Customer.objects.get(customer_id=customer_id)
->>>>>>> 2a3808d66030dd7595c6dd92b5292ff51314f449
         orders = Order.objects.filter(customer=customer).order_by('-order_date')
         
         context = {
@@ -318,7 +243,6 @@ def orders(request):
             'orders': orders,
         }
         return render(request, 'frontend/orders.html', context)
-<<<<<<< HEAD
     except Exception:
         return redirect('home')
 
@@ -327,19 +251,6 @@ def order_detail(request, order_id):
     """Individual order detail"""
     try:
         customer = request.user.customer
-=======
-    except Customer.DoesNotExist:
-        return redirect('login')
-
-def order_detail(request, order_id):
-    """Individual order detail"""
-    customer_id = request.session.get('customer_id')
-    if not customer_id:
-        return redirect('login')
-    
-    try:
-        customer = Customer.objects.get(customer_id=customer_id)
->>>>>>> 2a3808d66030dd7595c6dd92b5292ff51314f449
         order = get_object_or_404(Order, order_id=order_id, customer=customer)
         order_items = OrderItem.objects.filter(order=order)
         
@@ -349,13 +260,8 @@ def order_detail(request, order_id):
             'customer': customer,
         }
         return render(request, 'frontend/order_detail.html', context)
-<<<<<<< HEAD
     except Exception:
         return redirect('orders')
-=======
-    except Customer.DoesNotExist:
-        return redirect('login')
->>>>>>> 2a3808d66030dd7595c6dd92b5292ff51314f449
 
 # AJAX Views for dynamic functionality
 def add_to_cart(request):
@@ -417,7 +323,6 @@ def cart(request):
         'total': total,
         'cart_count': len(cart_items)
     }
-<<<<<<< HEAD
     return render(request, 'frontend/cart.html', context)
 
 @login_required
@@ -484,6 +389,3 @@ def add_staff(request):
             return redirect('dashboard')
             
     return redirect('dashboard')
-=======
-    return render(request, 'frontend/cart.html', context)
->>>>>>> 2a3808d66030dd7595c6dd92b5292ff51314f449
