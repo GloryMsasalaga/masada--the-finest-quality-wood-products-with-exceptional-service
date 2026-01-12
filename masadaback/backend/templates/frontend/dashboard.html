@@ -13,18 +13,9 @@
                     <p class="text-muted">Manage your orders, view your account details, and explore new products.</p>
                 </div>
                 <div>
-<<<<<<< HEAD
-                    <a href="{% url 'shop' %}" class="btn btn-primary no-glow">
-                        <i class="fas fa-shopping-bag me-2"></i>Continue Shopping
-                    </a>
-                    <a href="{% url 'logout' %}" class="btn btn-outline-danger no-glow ms-2">
-                        <i class="fas fa-sign-out-alt me-2"></i>Logout
-                    </a>
-=======
                     <a href="{% url 'shop' %}" class="btn btn-primary">
                         <i class="fas fa-shopping-bag me-2"></i>Continue Shopping
                     </a>
->>>>>>> 2a3808d66030dd7595c6dd92b5292ff51314f449
                 </div>
             </div>
         </div>
@@ -69,11 +60,7 @@
                     <h5 class="mb-0">
                         <i class="fas fa-history me-2"></i>Recent Orders
                     </h5>
-<<<<<<< HEAD
-                    <a href="{% url 'orders' %}" class="btn btn-outline-primary btn-sm no-glow">View All</a>
-=======
                     <a href="{% url 'orders' %}" class="btn btn-outline-primary btn-sm">View All</a>
->>>>>>> 2a3808d66030dd7595c6dd92b5292ff51314f449
                 </div>
                 <div class="card-body">
                     {% if recent_orders %}
@@ -112,12 +99,7 @@
                                         </span>
                                     </td>
                                     <td>
-<<<<<<< HEAD
-                                        <a href="{% url 'order_detail' order.order_id %}"
-                                            class="btn btn-outline-primary btn-sm no-glow">
-=======
                                         <a href="{% url 'order_detail' order.order_id %}" class="btn btn-outline-primary btn-sm">
->>>>>>> 2a3808d66030dd7595c6dd92b5292ff51314f449
                                             View
                                         </a>
                                     </td>
@@ -131,11 +113,7 @@
                         <i class="fas fa-shopping-cart text-muted fa-3x mb-3"></i>
                         <h5>No orders yet</h5>
                         <p class="text-muted">Start shopping to see your orders here.</p>
-<<<<<<< HEAD
-                        <a href="{% url 'shop' %}" class="btn btn-primary no-glow">
-=======
                         <a href="{% url 'shop' %}" class="btn btn-primary">
->>>>>>> 2a3808d66030dd7595c6dd92b5292ff51314f449
                             <i class="fas fa-shopping-bag me-2"></i>Browse Products
                         </a>
                     </div>
@@ -170,11 +148,7 @@
                         <strong>Location:</strong><br>
                         <span class="text-muted">{{ customer.location }}</span>
                     </div>
-<<<<<<< HEAD
-                    <button class="btn btn-outline-primary btn-sm w-100 no-glow">
-=======
                     <button class="btn btn-outline-primary btn-sm w-100">
->>>>>>> 2a3808d66030dd7595c6dd92b5292ff51314f449
                         <i class="fas fa-edit me-2"></i>Edit Profile
                     </button>
                 </div>
@@ -189,17 +163,10 @@
                 </div>
                 <div class="card-body">
                     <div class="d-grid gap-2">
-<<<<<<< HEAD
-                        <a href="{% url 'shop' %}" class="btn btn-primary no-glow">
-                            <i class="fas fa-shopping-bag me-2"></i>Browse Products
-                        </a>
-                        <a href="{% url 'orders' %}" class="btn btn-outline-primary no-glow">
-=======
                         <a href="{% url 'shop' %}" class="btn btn-primary">
                             <i class="fas fa-shopping-bag me-2"></i>Browse Products
                         </a>
                         <a href="{% url 'orders' %}" class="btn btn-outline-primary">
->>>>>>> 2a3808d66030dd7595c6dd92b5292ff51314f449
                             <i class="fas fa-list me-2"></i>View All Orders
                         </a>
                         <a href="{% url 'cart' %}" class="btn btn-outline-success">
@@ -232,11 +199,7 @@
                                 </div>
                             </div>
                         </div>
-<<<<<<< HEAD
-
-=======
                         
->>>>>>> 2a3808d66030dd7595c6dd92b5292ff51314f449
                         {% for order in recent_orders|slice:":3" %}
                         <div class="activity-item mb-3">
                             <div class="d-flex">
@@ -250,11 +213,7 @@
                             </div>
                         </div>
                         {% endfor %}
-<<<<<<< HEAD
-
-=======
                         
->>>>>>> 2a3808d66030dd7595c6dd92b5292ff51314f449
                         {% if not recent_orders %}
                         <div class="text-center text-muted py-3">
                             <i class="fas fa-clock fa-2x mb-2"></i>
@@ -273,16 +232,6 @@
 <style>
     .card {
         border: none;
-<<<<<<< HEAD
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        transition: all 0.3s ease;
-    }
-
-    .card:hover {
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-    }
-
-=======
         box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         transition: all 0.3s ease;
     }
@@ -291,31 +240,15 @@
         box-shadow: 0 4px 8px rgba(0,0,0,0.15);
     }
     
->>>>>>> 2a3808d66030dd7595c6dd92b5292ff51314f449
     .activity-feed {
         max-height: 300px;
         overflow-y: auto;
     }
-<<<<<<< HEAD
-
-=======
     
->>>>>>> 2a3808d66030dd7595c6dd92b5292ff51314f449
     .activity-icon {
         width: 24px;
         text-align: center;
     }
-<<<<<<< HEAD
-
-    .table-responsive {
-        border-radius: 0.375rem;
-    }
-
-    .badge {
-        font-size: 0.75em;
-    }
-
-=======
     
     .table-responsive {
         border-radius: 0.375rem;
@@ -325,7 +258,6 @@
         font-size: 0.75em;
     }
     
->>>>>>> 2a3808d66030dd7595c6dd92b5292ff51314f449
     @media (max-width: 768px) {
         .display-6 {
             font-size: 1.5rem;

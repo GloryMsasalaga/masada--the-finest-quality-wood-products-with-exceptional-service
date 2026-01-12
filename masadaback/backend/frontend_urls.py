@@ -21,11 +21,4 @@ urlpatterns = [
     # Shopping Cart
     path('cart/', frontend_views.cart, name='cart'),
     path('add-to-cart/', frontend_views.add_to_cart, name='add_to_cart'),
-<<<<<<< HEAD
-    
-    # Business Tools
-    path('add-product/', frontend_views.add_product, name='add_product'),
-    path('add-staff/', frontend_views.add_staff, name='add_staff'),
-=======
->>>>>>> 2a3808d66030dd7595c6dd92b5292ff51314f449
 ]

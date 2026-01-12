@@ -198,22 +198,7 @@ body {
     transform: translateY(-2px);
 }
 
-<<<<<<< HEAD
-/* No Glow Override */
-.no-glow {
-    box-shadow: none !important;
-}
-
-.no-glow:hover {
-    box-shadow: none !important;
-    transform: none !important;
-}
-
 /* Parallax Section */
-
-=======
-/* Parallax Section */
->>>>>>> 2a3808d66030dd7595c6dd92b5292ff51314f449
 .parallax-container {
     position: relative;
     height: 100vh;

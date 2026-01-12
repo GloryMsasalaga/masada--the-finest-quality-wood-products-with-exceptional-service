@@ -8,13 +8,8 @@
     <div class="row">
         <div class="col-md-6">
             <div class="card border-0 shadow-lg overflow-hidden">
-<<<<<<< HEAD
-                <img src="https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=800&h=600&fit=crop&crop=center"
-                    class="img-fluid" alt="{{ product.ProductName }}">
-=======
                 <img src="https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=800&h=600&fit=crop&crop=center" 
                      class="img-fluid" alt="{{ product.ProductName }}">
->>>>>>> 2a3808d66030dd7595c6dd92b5292ff51314f449
             </div>
         </div>
         <div class="col-md-6">
@@ -22,36 +17,6 @@
                 <div class="mb-3">
                     <span class="badge bg-primary">{{ product.ProductType }}</span>
                     <span class="badge bg-info text-dark">{{ product.grade }}</span>
-<<<<<<< HEAD
-                    {% if inventory and inventory.quantity_available > 0 %}
-                    <span class="badge bg-success">In Stock ({{ inventory.quantity_available }} available)</span>
-                    {% else %}
-                    <span class="badge bg-danger">Out of Stock</span>
-                    {% endif %}
-                </div>
-
-                <h1 class="display-4 fw-bold mb-3">{{ product.ProductName }}</h1>
-                <p class="lead text-primary fw-bold fs-2">${{ product.Price_per_unit }} <small class="text-muted fs-6">/
-                        unit</small></p>
-
-                <p class="lead text-muted mb-4">{{ product.description }}</p>
-
-                <div class="mb-4">
-                    <h5>Specifications:</h5>
-                    <ul class="list-unstyled">
-                        <li><i class="fas fa-check text-success me-2"></i> <strong>Dimensions:</strong> {{
-                            product.dimensions }}</li>
-                        <li><i class="fas fa-check text-success me-2"></i> <strong>Grade:</strong> {{ product.grade }}
-                        </li>
-                        <li><i class="fas fa-check text-success me-2"></i> <strong>Stock:</strong> {{
-                            product.stock_quantity }} units available</li>
-                    </ul>
-                </div>
-
-                <div class="d-grid gap-2 d-md-flex justify-content-md-start">
-                    <button onclick="addToCart('{{ product.product_id }}')"
-                        class="btn btn-primary btn-lg px-5 btn-glow">
-=======
                     {% if product.stock_quantity > 0 %}
                         <span class="badge bg-success">In Stock</span>
                     {% else %}
@@ -75,7 +40,6 @@
                 
                 <div class="d-grid gap-2 d-md-flex justify-content-md-start">
                     <button onclick="addToCart('{{ product.product_id }}')" class="btn btn-primary btn-lg px-5 btn-glow">
->>>>>>> 2a3808d66030dd7595c6dd92b5292ff51314f449
                         <i class="fas fa-cart-plus me-2"></i> Add to Cart
                     </button>
                     <a href="{% url 'shop' %}" class="btn btn-outline-secondary btn-lg px-4">
@@ -86,8 +50,4 @@
         </div>
     </div>
 </div>
-<<<<<<< HEAD
 {% endblock %}
-=======
-{% endblock %}
->>>>>>> 2a3808d66030dd7595c6dd92b5292ff51314f449
