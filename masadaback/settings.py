@@ -152,3 +152,22 @@ SESSION_COOKIE_AGE = 1209600  # 2 weeks in seconds
 SESSION_SAVE_EVERY_REQUEST = True  # Extend session on every request
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False  # Keep session even after browser closes
 
+# Email Configuration
+# For development: emails will be printed to console
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# For production: uncomment and configure these settings
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.gmail.com'  # Your SMTP server
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
+# EMAIL_HOST_USER = 'your-email@gmail.com'  # Your email
+# EMAIL_HOST_PASSWORD = 'your-app-password'  # App-specific password for Gmail
+
+# Email sender
+DEFAULT_FROM_EMAIL = 'Masada <noreply@masada.com>'
+EMAIL_SUBJECT_PREFIX = '[Masada] '
+
+# Password reset timeout (in seconds) - default is 3 days
+PASSWORD_RESET_TIMEOUT = 180  # 3 minutes
+# Server reload trigger

@@ -39,10 +39,13 @@
                             <label class="form-check-label" for="rememberMe">Remember me</label>
                         </div>
 
-                        <div class="d-grid">
+                        <div class="d-grid gap-2">
                             <button type="submit" class="btn btn-primary no-glow">
                                 <i class="fas fa-sign-in-alt me-2"></i>Login
                             </button>
+                            <a href="{% url 'request_token_login' %}" class="btn btn-outline-info no-glow">
+                                <i class="fas fa-magic me-2"></i>Login with Email
+                            </a>
                         </div>
                     </form>
 
@@ -57,7 +60,7 @@
 
                     <div class="text-center mt-3">
                         <small class="text-muted">
-                            <a href="#" class="text-decoration-none">Forgot your password?</a>
+                            <a href="{% url 'password_reset' %}" class="text-decoration-none">Forgot your password?</a>
                         </small>
                     </div>
                 </div>

@@ -1,0 +1,109 @@
+{% extends 'frontend/base.html' %}
+{% load static %}
+
+{% block title %}Verify Account - Masada{% endblock %}
+
+{% block extra_css %}
+<style>
+    .verification-box {
+        width: 50px;
+        height: 60px;
+        text-align: center;
+        font-size: 24px;
+        font-weight: bold;
+        margin: 0 5px;
+        border-radius: 10px;
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        background: rgba(255, 255, 255, 0.05);
+        color: white;
+        transition: all 0.3s ease;
+    }
+
+    .verification-box:focus {
+        border-color: var(--primary-color);
+        background: rgba(255, 255, 255, 0.1);
+        outline: none;
+        box-shadow: 0 0 15px rgba(210, 105, 30, 0.3);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center align-items-center min-vh-75">
+    <div class="col-md-6 col-lg-5">
+        <div class="card glass-effect border-0 shadow-lg">
+            <div class="card-body p-5 text-center">
+                <div class="mb-4">
+                    <i class="fas fa-shield-alt fa-3x text-primary mb-3"></i>
+                    <h2 class="fw-bold">Verify Your Account</h2>
+                    <p class="text-muted">We've sent a 6-digit code to <strong>{{ customer.email }}</strong></p>
+                </div>
+
+                <form method="post" id="verificationForm">
+                    {% csrf_token %}
+                    <div class="d-flex justify-content-center mb-4">
+                        <input type="text" class="verification-box" maxlength="1" name="code_1" pattern="\d" required>
+                        <input type="text" class="verification-box" maxlength="1" name="code_2" pattern="\d" required>
+                        <input type="text" class="verification-box" maxlength="1" name="code_3" pattern="\d" required>
+                        <input type="text" class="verification-box" maxlength="1" name="code_4" pattern="\d" required>
+                        <input type="text" class="verification-box" maxlength="1" name="code_5" pattern="\d" required>
+                        <input type="text" class="verification-box" maxlength="1" name="code_6" pattern="\d" required>
+                    </div>
+
+                    <div class="d-grid mb-3">
+                        <button type="submit" class="btn btn-primary no-glow btn-lg">
+                            <i class="fas fa-check-circle me-2"></i>Verify Account
+                        </button>
+                    </div>
+                </form>
+
+                <p class="text-muted mt-4">
+                    Didn't receive the code?
+                    <a href="{% url 'resend_code' customer_id=customer.customer_id %}"
+                        class="text-primary text-decoration-none fw-bold">Resend Code</a>
+                </p>
+
+                <a href="{% url 'signup' %}" class="btn btn-link text-muted mt-2">
+                    <i class="fas fa-arrow-left me-1"></i>Back to Registration
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const inputs = document.querySelectorAll('.verification-box');
+
+        inputs.forEach((input, index) => {
+            // Handle typing
+            input.addEventListener('input', (e) => {
+                if (e.target.value.length === 1 && index < inputs.length - 1) {
+                    inputs[index + 1].focus();
+                }
+            });
+
+            // Handle backspace
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Backspace' && !e.target.value && index > 0) {
+                    inputs[index - 1].focus();
+                }
+            });
+
+            // Handle paste
+            input.addEventListener('paste', (e) => {
+                e.preventDefault();
+                const pasteData = e.clipboardData.getData('text').slice(0, 6);
+                if (/^\d+$/.test(pasteData)) {
+                    for (let i = 0; i < pasteData.length; i++) {
+                        inputs[i].value = pasteData[i];
+                        if (i < inputs.length - 1) inputs[i + 1].focus();
+                    }
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}

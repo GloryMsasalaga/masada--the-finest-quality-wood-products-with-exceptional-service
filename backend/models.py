@@ -11,6 +11,10 @@ class Customer(models.Model):
     customer_id = models.UUIDField(primary_key=True, editable=False)
     location = models.CharField(max_length=120)
     
+    # Verification Fields
+    is_verified = models.BooleanField(default=False)
+    verification_code = models.CharField(max_length=6, blank=True, null=True)
+    
     def __str__(self):
         return self.fullname
     
