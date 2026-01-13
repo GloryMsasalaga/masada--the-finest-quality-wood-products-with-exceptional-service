@@ -184,17 +184,16 @@ body {
     color: #ffffff !important;
 }
 
-.btn-outline-primary {
+.btn-outline-light {
     border-color: #000000;
     color: #000000;
     background: transparent;
+    border-radius: 2rem;
 }
 
-.btn-outline-primary:hover {
+.btn-outline-light:hover {
     background-color: #000000;
-    border-color: #000000;
-    color: #ffffff;
-    box-shadow: 0 0 15px var(--glow-color);
+    color: #ffffff !important;
 }
 
 .btn-glow:hover {
@@ -245,10 +244,12 @@ body {
 .layer-content {
     text-align: center;
     z-index: 10;
-    background: rgba(0, 0, 0, 0.5);
-    padding: 2rem;
-    border-radius: 15px;
+    background: var(--primary-color);
+    padding: 2.5rem;
+    border-radius: 3rem;
     backdrop-filter: blur(5px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+    color: var(--text-light);
 }
 
 .layer-content h1 {
@@ -482,8 +483,27 @@ footer {
 
 /* CTA Section */
 .cta-section {
-    background: linear-gradient(135deg, #001a00 0%, #000000 100%);
-    border-top: 1px solid rgba(0, 255, 0, 0.1);
+    background-color: #ffffff !important;
+    color: var(--text-dark) !important;
+    border-top: 1px solid #eee;
+}
+
+.cta-section h2,
+.cta-section p {
+    color: var(--text-dark) !important;
+}
+
+.cta-section .cta-content {
+    background: var(--primary-color);
+    padding: 4rem;
+    border-radius: 4rem;
+    color: var(--text-light) !important;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+}
+
+.cta-section .cta-content h2,
+.cta-section .cta-content p {
+    color: var(--text-light) !important;
 }
 
 .feature-card .fas {
