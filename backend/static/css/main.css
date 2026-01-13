@@ -2,16 +2,17 @@
 
 /* Global Styles */
 :root {
-    --primary-color: #007d00;
-    /* More Vibrant Green for icons/highlights */
+    --primary-color: #004d00;
+    /* Dark Green for cards */
     --secondary-color: #ffffff;
     /* White */
     --accent-color: #00ff00;
-    /* Bright Green for hover/glow */
+    /* Bright Green for glows */
     --dark-bg: #001a00;
     /* Very Dark Green */
     --text-light: #ffffff;
-    --glow-color: rgba(0, 255, 0, 0.3);
+    --text-dark: #1a1a1a;
+    --glow-color: rgba(0, 255, 0, 0.2);
 }
 
 /* Global Icon Glow */
@@ -150,7 +151,7 @@ body {
 .btn-glow {
     background-color: #000000;
     border: 2px solid #000000;
-    color: #ffffff;
+    color: #ffffff !important;
     padding: 10px 25px;
     font-weight: 600;
     text-transform: uppercase;
@@ -159,25 +160,28 @@ body {
     overflow: hidden;
     transition: all 0.3s ease;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    border-radius: 2rem;
 }
 
 /* Glass Primary Button Override */
 .btn-primary {
     background-color: #000000 !important;
     border: 1px solid #000000 !important;
-    color: #fff !important;
+    color: #ffffff !important;
     backdrop-filter: blur(4px);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     transition: all 0.3s ease;
     text-transform: uppercase;
     font-weight: 600;
     letter-spacing: 0.5px;
+    border-radius: 2rem;
 }
 
 .btn-primary:hover {
     background-color: #1a1a1a !important;
     box-shadow: 0 0 20px var(--glow-color);
     transform: translateY(-2px);
+    color: #ffffff !important;
 }
 
 .btn-outline-primary {
@@ -328,16 +332,56 @@ body {
 }
 
 .card-custom {
-    background: rgba(255, 255, 255, 0.05);
+    background: var(--primary-color);
     border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 15px;
+    border-radius: 2.5rem;
     overflow: hidden;
     transition: transform 0.3s ease;
+    color: var(--text-light);
 }
 
 .card-custom:hover {
     transform: translateY(-10px);
     border-color: var(--accent-color);
+}
+
+.feature-card {
+    background: var(--primary-color) !important;
+    border-radius: 2.5rem !important;
+    color: var(--text-light) !important;
+    border: none !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2) !important;
+}
+
+.feature-card h4,
+.feature-card p {
+    color: var(--text-light) !important;
+}
+
+.category-card {
+    background: var(--primary-color) !important;
+    border-radius: 2.5rem !important;
+    color: var(--text-light) !important;
+    border: none !important;
+    transition: all 0.3s ease;
+}
+
+.category-card h5,
+.category-card p {
+    color: var(--text-light) !important;
+}
+
+.white-section {
+    background-color: #ffffff !important;
+    color: var(--text-dark) !important;
+}
+
+.white-section .section-header h2 {
+    color: var(--text-dark) !important;
+}
+
+.white-section .text-muted {
+    color: #6c757d !important;
 }
 
 /* Footer */
