@@ -7,10 +7,13 @@ class Customer(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
     fullname = models.TextField(max_length=120)
     email = models.EmailField(max_length=120)
-    # Password field removed - using Django Auth
     customer_type = models.CharField(max_length=120)
     customer_id = models.UUIDField(primary_key=True, editable=False)
     location = models.CharField(max_length=120)
+    
+    # Verification Fields
+    is_verified = models.BooleanField(default=False)
+    verification_code = models.CharField(max_length=6, blank=True, null=True)
     
     def __str__(self):
         return self.fullname
@@ -32,9 +35,22 @@ class Product(models.Model):
     Dimensions = models.CharField(max_length=120)
     stock_quantity = models.PositiveIntegerField(max_length=0)
     description = models.TextField(max_length=250)
+    vendor = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name='products', null=True, blank=True)
     
     def __str__(self):
         return self.ProductName
+
+class Staff(models.Model):
+    employer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name='staff_members')
+    fullname = models.CharField(max_length=120)
+    role = models.CharField(max_length=100)
+    email = models.EmailField(blank=True, null=True)
+    phone = models.CharField(max_length=20, blank=True, null=True)
+    date_joined = models.DateField(auto_now_add=True)
+    
+    def __str__(self):
+        return f"{self.fullname} - {self.role} at {self.employer.fullname}"
+
     
 class Order(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name= "items")

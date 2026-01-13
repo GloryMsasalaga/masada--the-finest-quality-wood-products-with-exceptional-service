@@ -1,0 +1,133 @@
+{% extends 'frontend/base.html' %}
+
+{% block title %}Contractor Dashboard - Masada{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <!-- Welcome Section -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h1 class="display-6">Contractor Portal</h1>
+                    <p class="text-muted">Manage your projects, bulk orders, and view your exclusive contractor
+                        discounts.</p>
+                </div>
+                <div>
+                    <a href="{% url 'bulk_order' %}" class="btn btn-primary no-glow">
+                        <i class="fas fa-plus-circle me-2"></i>New Bulk Order
+                    </a>
+                    <a href="{% url 'logout' %}" class="btn btn-outline-danger no-glow ms-2">
+                        <i class="fas fa-sign-out-alt me-2"></i>Logout
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Main Stats -->
+        <div class="col-lg-8">
+            <div class="row g-4 mb-4">
+                <div class="col-md-4">
+                    <div class="card text-center border-primary">
+                        <div class="card-body">
+                            <i class="fas fa-hard-hat text-primary fa-2x mb-2"></i>
+                            <h4 class="mb-1">{{ project_count }}</h4>
+                            <small class="text-muted">Active Projects</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card text-center border-warning">
+                        <div class="card-body">
+                            <i class="fas fa-star text-warning fa-2x mb-2"></i>
+                            <h4 class="mb-1">{{ discount_tier }}</h4>
+                            <small class="text-muted">Discount Tier</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card text-center border-success">
+                        <div class="card-body">
+                            <i class="fas fa-truck-loading text-success fa-2x mb-2"></i>
+                            <h4 class="mb-1">{{ active_shipments }}</h4>
+                            <small class="text-muted">Active Shipments</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Bulk Purchases -->
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0"><i class="fas fa-list-alt me-2"></i>Recent Bulk Purchases</h5>
+                    <a href="{% url 'orders' %}" class="btn btn-sm btn-outline-primary">View History</a>
+                </div>
+                <div class="card-body">
+                    {% if recent_orders %}
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Order #</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                    <th>Amount</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for order in recent_orders %}
+                                <tr>
+                                    <td>{{ order.order_id|slice:":8" }}</td>
+                                    <td>{{ order.order_date|date:"M d, Y" }}</td>
+                                    <td><span class="badge bg-info">{{ order.order_status|title }}</span></td>
+                                    <td>${{ order.items.all.0.subtotal|default:"0.00" }}</td> <!-- Simplified -->
+                                    <td><a href="{% url 'order_detail' order.order_id %}"
+                                            class="btn btn-sm btn-link">Details</a></td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                    <p class="text-center text-muted col-12 py-4">No bulk orders found.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar Actions -->
+        <div class="col-lg-4">
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Contractor Benefits</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i> 15% Off all Hardwood</li>
+                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i> Priority Delivery</li>
+                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i> Tax-Exempt Status</li>
+                        <li><i class="fas fa-check text-success me-2"></i> Technical Support</li>
+                    </ul>
+                    <hr>
+                    <div class="d-grid">
+                        <button class="btn btn-outline-primary">Download Price List</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Quick Support</h5>
+                </div>
+                <div class="card-body">
+                    <p class="small text-muted">Direct line for our contractor partners:</p>
+                    <h5><i class="fas fa-phone-alt me-2"></i> +1 (800) MASADA-PRO</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

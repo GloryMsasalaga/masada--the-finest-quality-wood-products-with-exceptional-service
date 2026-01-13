@@ -300,7 +300,45 @@ def dashboard(request):
             }
             return render(request, 'frontend/business_dashboard.html', context)
         
-        # Standard Customer Logic
+        # Contractor Dashboard Logic
+        elif customer.customer_type == 'Contractor':
+            recent_orders = Order.objects.filter(customer=customer).order_by('-order_date')
+            active_shipments = recent_orders.filter(order_status='processing').count()
+            project_count = recent_orders.count() # Each order seen as a project for now
+            
+            # Dynamic Discount Tier based on total spend
+            total_spend = sum(OrderItem.objects.filter(order__customer=customer).values_list('subtotal', flat=True))
+            if total_spend > 5000:
+                discount_tier = 'Gold (20%)'
+            elif total_spend > 2000:
+                discount_tier = 'Silver (15%)'
+            else:
+                discount_tier = 'Bronze (10%)'
+
+            context = {
+                'customer': customer,
+                'recent_orders': recent_orders[:5],
+                'project_count': project_count,
+                'discount_tier': discount_tier,
+                'active_shipments': active_shipments
+            }
+            return render(request, 'frontend/contractor_dashboard.html', context)
+        
+        # Retailer Dashboard Logic
+        elif customer.customer_type == 'Retailer':
+            recent_orders = Order.objects.filter(customer=customer).order_by('-order_date')
+            # Calculate total outstanding or total spent
+            total_spent = sum(OrderItem.objects.filter(order__customer=customer).values_list('subtotal', flat=True))
+            
+            context = {
+                'customer': customer,
+                'recent_orders': recent_orders[:5],
+                'wholesale_status': 'Active',
+                'balance': f"{total_spent:,.2f}"
+            }
+            return render(request, 'frontend/retailer_dashboard.html', context)
+        
+        # Standard Customer Logic (Individual)
         else:
             recent_orders = Order.objects.filter(customer=customer).order_by('-order_date')[:5]
             
@@ -314,6 +352,25 @@ def dashboard(request):
         print(f"Dashboard Error: {e}") # Debugging
         messages.warning(request, "Please ensure your profile is complete to access the dashboard.")
         return redirect('home')
+
+@login_required(login_url='login')
+def bulk_order(request):
+    """Bulk order page for contractors and retailers"""
+    customer = request.user.customer
+    if customer.customer_type not in ['Contractor', 'Retailer', 'Business']:
+        messages.warning(request, "Bulk ordering is only available for professional accounts.")
+        return redirect('dashboard')
+    
+    products = Product.objects.all()
+    categories = Product.objects.values_list('Category', flat=True).distinct()
+    
+    context = {
+        'customer': customer,
+        'products': products,
+        'categories': categories,
+        'discount_tier': '15%' if customer.customer_type == 'Contractor' else '10%'
+    }
+    return render(request, 'frontend/bulk_order.html', context)
 
 @login_required(login_url='login')
 def orders(request):
@@ -412,7 +469,9 @@ def cart(request):
 def get_cart_count(request):
     """AJAX view to get current cart count"""
     cart = request.session.get('cart', {})
-    cart_count = sum(item['quantity'] for item in cart.values())
+    if not cart:
+        return JsonResponse({'count': 0})
+    cart_count = sum(int(item.get('quantity', 0)) for item in cart.values())
     return JsonResponse({'count': cart_count})
 
 @login_required

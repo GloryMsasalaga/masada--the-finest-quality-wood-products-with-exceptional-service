@@ -52,6 +52,7 @@ urlpatterns = [
     
     # User Dashboard
     path('dashboard/', frontend_views.dashboard, name='dashboard'),
+    path('bulk-order/', frontend_views.bulk_order, name='bulk_order'),
     path('orders/', frontend_views.orders, name='orders'),
     path('order/<uuid:order_id>/', frontend_views.order_detail, name='order_detail'),
     
