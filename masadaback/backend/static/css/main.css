@@ -2,16 +2,16 @@
 
 /* Global Styles */
 :root {
-    --primary-color: #004d00;
-    /* Dark Green */
+    --primary-color: #007d00;
+    /* More Vibrant Green for icons/highlights */
     --secondary-color: #ffffff;
     /* White */
-    --accent-color: #006400;
-    /* Forest Green */
+    --accent-color: #00ff00;
+    /* Bright Green for hover/glow */
     --dark-bg: #001a00;
     /* Very Dark Green */
     --text-light: #ffffff;
-    --glow-color: rgba(0, 100, 0, 0.4);
+    --glow-color: rgba(0, 255, 0, 0.3);
 }
 
 /* Global Icon Glow */
@@ -32,7 +32,7 @@
 
 /* Fix text visibility on dark background */
 .text-muted {
-    color: rgba(255, 255, 255, 0.8) !important;
+    color: rgba(255, 255, 255, 0.9) !important;
 }
 
 /* Reset text-muted for light sections */
@@ -429,10 +429,30 @@ footer {
     transform: scale(1.1);
 }
 
+.separator {
+    width: 80px;
+    height: 4px;
+    background: var(--primary-color);
+    margin: 20px 0;
+}
+
 /* CTA Section */
 .cta-section {
-    background: linear-gradient(135deg, var(--primary-color) 0%, #000000 100%);
+    background: linear-gradient(135deg, #001a00 0%, #000000 100%);
+    border-top: 1px solid rgba(0, 255, 0, 0.1);
 }
+
+.feature-card .fas {
+    font-size: 2.5rem;
+    color: var(--accent-color) !important;
+    filter: drop-shadow(0 0 10px var(--glow-color));
+}
+
+.feature-card h4 {
+    color: var(--secondary-color);
+    margin-top: 15px;
+}
+
 
 .cta-bg-pattern {
     position: absolute;
