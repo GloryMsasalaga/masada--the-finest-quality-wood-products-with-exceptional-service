@@ -1,9 +1,14 @@
 # from django.shortcuts import render
+from django.shortcuts import render
 from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from .models import (Product, Customer, Order, OrderItem, Inventory, InventoryLog, Delivery)
 from .serializers import (ProductSerializer, CustomerSerializer, OrderSerializer, OrderItemSerializer, InventorySerializer, InventoryLogSerializer, SupplierSerializer, DeliverySerializer)
+
+# Custom 404 view
+def custom_404_view(request, exception=None):
+    return render(request, 'frontend/404.html', status=404)
 
 # Create your views here.
 class ProductViewSet(viewsets.ModelViewSet):
