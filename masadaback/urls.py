@@ -22,4 +22,3 @@ urlpatterns = [
     path('api/', include('backend.urls')),  # API endpoints
     path('', include('backend.frontend_urls')),  # Frontend pages
 ]
-handler404 = 'backend.views.custom_404_view'
