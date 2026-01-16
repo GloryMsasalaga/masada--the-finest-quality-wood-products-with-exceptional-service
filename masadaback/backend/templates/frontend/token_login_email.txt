@@ -1,0 +1,12 @@
+Hello {{ user.get_full_name|default:user.username }},
+
+Click the link below to log in to your Masada account instantly:
+
+{{ protocol }}://{{ domain }}{% url 'verify_token_login' uidb64=uid token=token %}
+
+This link is for one-time use and will expire soon for security.
+
+If you didn't request this login link, you can safely ignore this email.
+
+Best regards,
+The Masada Team

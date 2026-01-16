@@ -1,0 +1,134 @@
+{% extends 'frontend/base.html' %}
+
+{% block title %}Retailer Dashboard - Masada{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <!-- Welcome Section -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h1 class="display-6">Retailer Dashboard</h1>
+                    <p class="text-muted">Manage your stock, view wholesale pricing, and track your business growth.</p>
+                </div>
+                <div>
+                    <a href="{% url 'bulk_order' %}" class="btn btn-primary no-glow">
+                        <i class="fas fa-store me-2"></i>Wholesale Shop
+                    </a>
+                    <a href="{% url 'logout' %}" class="btn btn-outline-danger no-glow ms-2">
+                        <i class="fas fa-sign-out-alt me-2"></i>Logout
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Wholesale Stats -->
+        <div class="col-lg-8">
+            <div class="row g-4 mb-4">
+                <div class="col-md-4">
+                    <div class="card bg-light border-0">
+                        <div class="card-body">
+                            <h6 class="text-muted text-uppercase small">Wholesale Status</h6>
+                            <h4 class="mb-0 text-success">{{ wholesale_status }}</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card bg-light border-0">
+                        <div class="card-body">
+                            <h6 class="text-muted text-uppercase small">Credit Balance</h6>
+                            <h4 class="mb-0">${{ balance }}</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card bg-light border-0">
+                        <div class="card-body">
+                            <h6 class="text-muted text-uppercase small">Total Reordered</h6>
+                            <h4 class="mb-0">{{ recent_orders.count }}</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Wholesale Orders -->
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-header bg-white border-bottom py-3">
+                    <h5 class="mb-0">Wholesale Order History</h5>
+                </div>
+                <div class="card-body">
+                    {% if recent_orders %}
+                    <div class="table-responsive">
+                        <table class="table align-middle">
+                            <thead>
+                                <tr>
+                                    <th>Order Info</th>
+                                    <th>Status</th>
+                                    <th>Total</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for order in recent_orders %}
+                                <tr>
+                                    <td>
+                                        <strong>#{{ order.order_id|slice:":8" }}</strong><br>
+                                        <small class="text-muted">{{ order.order_date|date:"M d, Y" }}</small>
+                                    </td>
+                                    <td><span class="badge bg-success-subtle text-success">{{ order.order_status|title
+                                            }}</span></td>
+                                    <td>${{ order.items.all.0.subtotal|default:"0.00" }}</td>
+                                    <td><a href="{% url 'order_detail' order.order_id %}"
+                                            class="btn btn-sm btn-outline-secondary">Invoice</a></td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                    <div class="text-center py-5">
+                        <i class="fas fa-box-open fa-3x text-muted mb-3"></i>
+                        <p>No wholesale orders placed yet.</p>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Side Information -->
+        <div class="col-lg-4">
+            <div class="card shadow-sm mb-4">
+                <div class="card-body">
+                    <h5 class="card-title mb-3">Inventory Alerts</h5>
+                    <div class="alert alert-info py-2 mb-0">
+                        <i class="fas fa-info-circle me-2"></i> All Softwood stocks are high.
+                    </div>
+                    <div class="alert alert-warning py-2 mt-2">
+                        <i class="fas fa-exclamation-triangle me-2"></i> Hardwood stocks running low!
+                    </div>
+                </div>
+            </div>
+
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title mb-3">Resource Center</h5>
+                    <div class="list-group list-group-flush">
+                        <a href="#" class="list-group-item list-group-item-action border-0 px-0">
+                            <i class="far fa-file-pdf text-danger me-2"></i> Product Catalog 2026
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action border-0 px-0">
+                            <i class="far fa-file-excel text-success me-2"></i> Wholesale Price List
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action border-0 px-0">
+                            <i class="far fa-file-alt text-primary me-2"></i> Returns Policy
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
