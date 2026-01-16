@@ -1,0 +1,330 @@
+{% extends 'frontend/base.html' %}
+
+{% block title %}Business Dashboard - Masada{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <!-- Welcome Section -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h1 class="display-6">Business Dashboard</h1>
+                    <p class="text-muted">Manage your inventory, staff, and view performance reports.</p>
+                </div>
+                <div>
+                    <button class="btn btn-success no-glow" data-bs-toggle="modal" data-bs-target="#addProductModal">
+                        <i class="fas fa-plus me-2"></i>Add Product
+                    </button>
+                    <button class="btn btn-info no-glow ms-2" data-bs-toggle="modal" data-bs-target="#addStaffModal">
+                        <i class="fas fa-user-plus me-2"></i>Add Staff
+                    </button>
+                    <a href="{% url 'logout' %}" class="btn btn-outline-danger no-glow ms-2">
+                        <i class="fas fa-sign-out-alt me-2"></i>Logout
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Weekly Report Cards -->
+    <div class="row g-4 mb-4">
+        <div class="col-md-3">
+            <div class="card text-center h-100">
+                <div class="card-body">
+                    <h6 class="card-subtitle mb-2 text-muted">Weekly Sales</h6>
+                    <h3 class="card-title text-success">${{ weekly_earnings }}</h3>
+                    <small class="text-{{ sales_growth_color }}">
+                        <i class="fas fa-arrow-{{ sales_growth_icon }}"></i> {{ sales_growth }}% from last week
+                    </small>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center h-100">
+                <div class="card-body">
+                    <h6 class="card-subtitle mb-2 text-muted">Total Orders</h6>
+                    <h3 class="card-title text-primary">{{ weekly_orders_count }}</h3>
+                    <small class="text-muted">In the last 7 days</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center h-100">
+                <div class="card-body">
+                    <h6 class="card-subtitle mb-2 text-muted">Low Stock Items</h6>
+                    <h3 class="card-title text-warning">{{ low_stock_count }}</h3>
+                    <small class="text-muted">Items requiring reorder</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center h-100">
+                <div class="card-body">
+                    <h6 class="card-subtitle mb-2 text-muted">Total Products</h6>
+                    <h3 class="card-title text-info">{{ total_products }}</h3>
+                    <small class="text-muted">Active listings</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <!-- Sales Graph -->
+        <div class="col-lg-8">
+            <div class="card h-100">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="fas fa-chart-line me-2"></i>Sales Performance</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="salesChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Staff List (Compact) -->
+        <div class="col-lg-4">
+            <div class="card h-100">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0"><i class="fas fa-users me-2"></i>Staff</h5>
+                    <small class="text-muted">{{ staff_members.count }} Active</small>
+                </div>
+                <div class="card-body p-0">
+                    <ul class="list-group list-group-flush">
+                        {% for staff in staff_members %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center bg-transparent">
+                            <div>
+                                <strong>{{ staff.fullname }}</strong>
+                                <div class="small text-muted">{{ staff.role }}</div>
+                            </div>
+                            <span class="badge bg-secondary rounded-pill">Active</span>
+                        </li>
+                        {% empty %}
+                        <li class="list-group-item text-center text-muted">No staff members added.</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="card-footer text-center">
+                    <a href="#" class="btn btn-link btn-sm text-decoration-none">View All Staff</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Inventory Table -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="fas fa-boxes me-2"></i>Inventory Management</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle">
+                            <thead>
+                                <tr>
+                                    <th>Product Name</th>
+                                    <th>Category</th>
+                                    <th>Price</th>
+                                    <th>Stock Level</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in inventory_items %}
+                                <tr>
+                                    <td>
+                                        <div class="fw-bold">{{ item.product.ProductName }}</div>
+                                        <small class="text-muted">ID: {{ item.product.product_id|slice:":8" }}</small>
+                                    </td>
+                                    <td>{{ item.product.Category }}</td>
+                                    <td>${{ item.product.Price_per_unit }}</td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <span class="me-2">{{ item.quantity_available }} {{ item.uom }}</span>
+                                            <div class="progress flex-grow-1" style="height: 5px; width: 60px;">
+                                                <div class="progress-bar {% if item.quantity_available < item.reorder_level %}bg-danger{% else %}bg-success{% endif %}"
+                                                    role="progressbar"
+                                                    style="width: {% widthratio item.quantity_available item.reorder_quantity 100 %}%">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        {% if item.quantity_available < item.reorder_level %} <span
+                                            class="badge bg-danger">Low Stock</span>
+                                            {% else %}
+                                            <span class="badge bg-success">In Stock</span>
+                                            {% endif %}
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-primary no-glow me-1" title="Edit">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-success no-glow" title="Add Stock">
+                                            <i class="fas fa-plus"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="6" class="text-center py-4 text-muted">
+                                        <i class="fas fa-box-open fa-2x mb-2"></i>
+                                        <p>No products in inventory.</p>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add Product Modal Placeholder -->
+<div class="modal fade" id="addProductModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content glass-effect">
+            <div class="modal-header">
+                <h5 class="modal-title">Add New Product</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{% url 'add_product' %}" method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label class="form-label">Product Name</label>
+                        <input type="text" class="form-control" name="name" required>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Category</label>
+                            <input type="text" class="form-control" name="category" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Type</label>
+                            <select class="form-select" name="type">
+                                <option>Hardwood</option>
+                                <option>Softwood</option>
+                                <option>Plywood</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Price</label>
+                            <input type="number" step="0.01" class="form-control" name="price" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Initial Quantity</label>
+                            <input type="number" class="form-control" name="quantity" required>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Dimensions</label>
+                        <input type="text" class="form-control" name="dimensions" placeholder="e.g. 2x4x8">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Description</label>
+                        <textarea class="form-control" name="description" rows="3"></textarea>
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary no-glow">Add Product</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add Staff Modal Placeholder -->
+<div class="modal fade" id="addStaffModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content glass-effect">
+            <div class="modal-header">
+                <h5 class="modal-title">Add Staff Member</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{% url 'add_staff' %}" method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label class="form-label">Full Name</label>
+                        <input type="text" class="form-control" name="fullname" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Role</label>
+                        <input type="text" class="form-control" name="role" placeholder="e.g. Store Manager" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-control" name="email">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Phone</label>
+                        <input type="text" class="form-control" name="phone">
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary no-glow">Add Staff Member</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Sales Chart
+    const ctx = document.getElementById('salesChart').getContext('2d');
+    const salesChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: {{ graph_labels| safe }},
+    datasets: [{
+        label: 'Weekly Earnings ($)',
+        data: {{ graph_data| safe }},
+        borderColor: '#D2691E',
+        backgroundColor: 'rgba(210, 105, 30, 0.1)',
+        borderWidth: 2,
+        tension: 0.4,
+        fill: true
+            }]
+        },
+    options: {
+        responsive: true,
+            maintainAspectRatio: false,
+                plugins: {
+            legend: {
+                display: false
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                    grid: {
+                    color: 'rgba(255, 255, 255, 0.1)'
+                },
+                ticks: {
+                    color: '#aaa'
+                }
+            },
+            x: {
+                grid: {
+                    display: false
+                },
+                ticks: {
+                    color: '#aaa'
+                }
+            }
+        }
+    }
+    });
+</script>
+{% endblock %}
