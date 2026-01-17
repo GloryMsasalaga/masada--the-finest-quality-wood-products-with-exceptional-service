@@ -2,7 +2,6 @@
 from django.urls import path
 from django.contrib.auth import views as auth_views
 from . import frontend_views
-from .views import custom_404_view
 
 urlpatterns = [
     # Main pages
@@ -61,5 +60,4 @@ urlpatterns = [
     path('cart/', frontend_views.cart, name='cart'),
     path('add-to-cart/', frontend_views.add_to_cart, name='add_to_cart'),
     path('api/cart-count/', frontend_views.get_cart_count, name='get_cart_count'),
-    path('page-not-found/', custom_404_view, name='page_not_found'),
 ]
