@@ -588,3 +588,7 @@ def verify_token_login(request, uidb64, token):
     else:
         messages.error(request, "The login link is invalid or has expired.")
         return redirect('login')
+
+def custom_404(request, exception):
+    """Custom 404 error handler"""
+    return render(request, 'frontend/404.html', status=404)

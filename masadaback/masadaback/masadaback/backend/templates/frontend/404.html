@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Page Not Found</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .error-404-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+
+        .error-content {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 60px 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 600px;
+            animation: slideUp 0.8s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .bigfoot-container {
+            margin-bottom: 40px;
+            perspective: 1000px;
+        }
+
+        .bigfoot {
+            width: 200px;
+            height: 300px;
+            margin: 0 auto;
+            filter: drop-shadow(0 10px 20px rgba(30, 144, 255, 0.3));
+        }
+
+        .bigfoot-head {
+            animation: headBounce 2s ease-in-out infinite;
+        }
+
+        .bigfoot-body {
+            animation: bodyWiggle 1.5s ease-in-out infinite;
+            transform-origin: center;
+        }
+
+        .bigfoot-arm-left {
+            animation: armSwingLeft 2s ease-in-out infinite;
+            transform-origin: 65px 100px;
+        }
+
+        .bigfoot-arm-right {
+            animation: armSwingRight 2s ease-in-out infinite;
+            transform-origin: 135px 100px;
+        }
+
+        .bigfoot-leg-left {
+            animation: legStepLeft 2s ease-in-out infinite;
+            transform-origin: 90px 190px;
+        }
+
+        .bigfoot-leg-right {
+            animation: legStepRight 2s ease-in-out infinite;
+            transform-origin: 110px 190px;
+        }
+
+        .bigfoot-eye {
+            animation: eyeBlink 3s ease-in-out infinite;
+        }
+
+        .foot {
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+        }
+
+        @keyframes headBounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        @keyframes bodyWiggle {
+            0%, 100% {
+                transform: scaleX(1);
+            }
+            25% {
+                transform: scaleX(1.05);
+            }
+            75% {
+                transform: scaleX(0.95);
+            }
+        }
+
+        @keyframes armSwingLeft {
+            0%, 100% {
+                transform: rotate(0deg);
+            }
+            50% {
+                transform: rotate(-30deg);
+            }
+        }
+
+        @keyframes armSwingRight {
+            0%, 100% {
+                transform: rotate(0deg);
+            }
+            50% {
+                transform: rotate(30deg);
+            }
+        }
+
+        @keyframes legStepLeft {
+            0%, 100% {
+                transform: translateX(0);
+            }
+            50% {
+                transform: translateX(-10px);
+            }
+        }
+
+        @keyframes legStepRight {
+            0%, 100% {
+                transform: translateX(0);
+            }
+            50% {
+                transform: translateX(10px);
+            }
+        }
+
+        @keyframes eyeBlink {
+            0%, 90%, 100% {
+                cy: 50;
+                r: 6;
+            }
+            95% {
+                cy: 53;
+                r: 2;
+            }
+        }
+
+        .error-code {
+            font-size: 120px;
+            font-weight: bold;
+            margin: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: numberPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes numberPulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+        }
+
+        .error-title {
+            font-size: 32px;
+            color: #333;
+            margin: 20px 0 15px;
+            font-weight: 600;
+        }
+
+        .error-description {
+            font-size: 16px;
+            color: #666;
+            margin: 0 0 30px;
+            line-height: 1.6;
+        }
+
+        .back-home-btn {
+            display: inline-block;
+            padding: 15px 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+            cursor: pointer;
+            border: none;
+        }
+
+        .back-home-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.6);
+        }
+
+        .back-home-btn:active {
+            transform: translateY(-1px);
+        }
+
+        @media (max-width: 600px) {
+            .error-content {
+                padding: 40px 20px;
+            }
+
+            .error-code {
+                font-size: 80px;
+            }
+
+            .error-title {
+                font-size: 24px;
+            }
+
+            .error-description {
+                font-size: 14px;
+            }
+
+            .bigfoot {
+                width: 150px;
+                height: 225px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="error-404-container">
+        <div class="error-content">
+            <div class="bigfoot-container">
+                <svg class="bigfoot" viewBox="0 0 200 400" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Head -->
+                    <circle cx="100" cy="60" r="35" fill="#1e90ff" class="bigfoot-head"/>
+                    
+                    <!-- Eyes -->
+                    <circle cx="85" cy="50" r="6" fill="white" class="bigfoot-eye"/>
+                    <circle cx="115" cy="50" r="6" fill="white" class="bigfoot-eye"/>
+                    <circle cx="85" cy="50" r="3" fill="black" class="bigfoot-pupil"/>
+                    <circle cx="115" cy="50" r="3" fill="black" class="bigfoot-pupil"/>
+                    
+                    <!-- Nose -->
+                    <ellipse cx="100" cy="65" rx="4" ry="5" fill="black"/>
+                    
+                    <!-- Mouth (sad expression) -->
+                    <path d="M 95 75 Q 100 78 105 75" stroke="black" stroke-width="2" fill="none" stroke-linecap="round"/>
+                    
+                    <!-- Body -->
+                    <ellipse cx="100" cy="150" rx="40" ry="55" fill="#1e90ff" class="bigfoot-body"/>
+                    
+                    <!-- Arms -->
+                    <g class="bigfoot-arm-left">
+                        <ellipse cx="65" cy="130" rx="15" ry="45" fill="#1e90ff" transform="rotate(-20 65 130)"/>
+                        <circle cx="55" cy="170" r="12" fill="#1e90ff"/>
+                    </g>
+                    
+                    <g class="bigfoot-arm-right">
+                        <ellipse cx="135" cy="130" rx="15" ry="45" fill="#1e90ff" transform="rotate(20 135 130)"/>
+                        <circle cx="145" cy="170" r="12" fill="#1e90ff"/>
+                    </g>
+                    
+                    <!-- Legs -->
+                    <g class="bigfoot-leg-left">
+                        <rect x="80" y="190" width="20" height="70" fill="#1e90ff" rx="10"/>
+                        <ellipse cx="90" cy="265" rx="25" ry="30" fill="#1e90ff" class="foot"/>
+                    </g>
+                    
+                    <g class="bigfoot-leg-right">
+                        <rect x="100" y="190" width="20" height="70" fill="#1e90ff" rx="10"/>
+                        <ellipse cx="110" cy="265" rx="25" ry="30" fill="#1e90ff" class="foot"/>
+                    </g>
+                    
+                    <!-- Fur texture -->
+                    <circle cx="80" cy="120" r="3" fill="#0d5fb8" opacity="0.6"/>
+                    <circle cx="120" cy="140" r="3" fill="#0d5fb8" opacity="0.6"/>
+                    <circle cx="95" cy="160" r="3" fill="#0d5fb8" opacity="0.6"/>
+                    <circle cx="105" cy="180" r="3" fill="#0d5fb8" opacity="0.6"/>
+                </svg>
+            </div>
+            
+            <div class="error-text">
+                <h1 class="error-code">404</h1>
+                <h2 class="error-title">Oops! Page Not Found</h2>
+                <p class="error-description">
+                    Even Bigfoot couldn't find this page in the forest! 
+                    <br>Let's get you back to familiar territory.
+                </p>
+                <a href="/" class="back-home-btn">🏠 Go Back Home</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
